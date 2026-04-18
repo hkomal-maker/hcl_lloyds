@@ -1,4 +1,4 @@
-package com.lloyds.lbe.alert_service.model;
+package com.ll.lbe.alert_service.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;

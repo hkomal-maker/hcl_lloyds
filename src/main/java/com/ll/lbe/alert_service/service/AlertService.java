@@ -1,8 +1,8 @@
-package com.lloyds.lbe.alert_service.service;
+package com.ll.lbe.alert_service.service;
 
-import com.lloyds.lbe.alert_service.common.exception.GlobalExceptionHandler;
-import com.lloyds.lbe.alert_service.dao.AlertRepository;
-import com.lloyds.lbe.alert_service.model.Alert;
+import com.ll.lbe.alert_service.common.exception.GlobalExceptionHandler;
+import com.ll.lbe.alert_service.dao.AlertRepository;
+import com.ll.lbe.alert_service.model.Alert;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -51,26 +51,23 @@ public class AlertService {
     }
 
     public Map<String, Long> getSummary(String groupBy) {
-        // Supported groupBy fields
-        List<String> validGroupBy = List.of("status", "alertType", "riskBand");
-        if (!validGroupBy.contains(groupBy)) {
-            throw new GlobalExceptionHandler.BusinessRuleException("Invalid groupBy parameter: " + groupBy);
+        switch (groupBy.toLowerCase()) {
+            case "status":
+                return repository.findAll().stream()
+                        .collect(Collectors.groupingBy(Alert::getStatus, Collectors.counting()));
+
+            case "riskband":
+                return repository.findAll().stream()
+                        .collect(Collectors.groupingBy(Alert::getRiskBand, Collectors.counting()));
+
+            case "alerttype":
+                return repository.findAll().stream()
+                        .collect(Collectors.groupingBy(Alert::getAlertType, Collectors.counting()));
+
+            default:
+                throw new GlobalExceptionHandler.BusinessRuleException(
+                        "groupBy must be one of: status, riskBand, alertType"
+                );
         }
-
-        List<Alert> alerts = repository.findAll();
-
-        Map<String, Long> summary = alerts.stream()
-                .collect(Collectors.groupingBy(alert -> {
-                    switch (groupBy) {
-                        case "alertType":
-                            return alert.getAlertType();
-                        case "riskBand":
-                            return alert.getRiskBand();
-                        default:
-                            return alert.getStatus();
-                    }
-                }, Collectors.counting()));
-
-        return summary;
     }
 }

@@ -1,7 +1,7 @@
-package com.lloyds.lbe.alert_service.controller;
+package com.ll.lbe.alert_service.controller;
 
-import com.lloyds.lbe.alert_service.model.Alert;
-import com.lloyds.lbe.alert_service.service.AlertService;
+import com.ll.lbe.alert_service.model.Alert;
+import com.ll.lbe.alert_service.service.AlertService;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

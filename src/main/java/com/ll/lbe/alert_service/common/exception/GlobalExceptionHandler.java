@@ -1,4 +1,4 @@
-package com.lloyds.lbe.alert_service.common.exception;
+package com.ll.lbe.alert_service.common.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
